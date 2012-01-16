@@ -9,6 +9,8 @@ gem 'haml-rails'
 gem 'therubyracer'
 gem 'sorcery'
 
-group :test do
+group :test, :development do
   gem 'rspec'
+  gem 'guard'
+  gem 'guard-rspec'
 end
