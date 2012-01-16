@@ -11,6 +11,7 @@ gem 'sorcery'
 
 group :test, :development do
   gem 'rspec'
+  gem 'rspec-rails'
   gem 'guard'
   gem 'guard-rspec'
   gem 'growl'
