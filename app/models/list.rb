@@ -11,3 +11,4 @@ class List < ActiveRecord::Base
     items.where(type: :con).all
   end
 end
+
