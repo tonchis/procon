@@ -8,3 +8,7 @@ gem 'jquery-rails'
 gem 'haml-rails'
 gem 'therubyracer'
 gem 'sorcery'
+
+group :test do
+  gem 'rspec'
+end
