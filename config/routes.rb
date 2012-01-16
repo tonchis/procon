@@ -1,9 +1,11 @@
 Procon::Application.routes.draw do
+  root to: "lists#index"
+  get "signup" => "users#new",        :as => "signup"
+  get "login"  => "sessions#new",     :as => "login"
   get "logout" => "sessions#destroy", :as => "logout"
-  get "login" => "sessions#new", :as => "login"
-  get "signup" => "users#new", :as => "signup"
   resources :users
   resources :sessions
+  resources :lists
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
