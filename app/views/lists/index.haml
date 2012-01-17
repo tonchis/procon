@@ -1,0 +1,10 @@
+.page-header
+  %h1 Pros and Cons lists!
+%ul
+  - @lists.each do |list|
+    %li= link_to list.name, edit_list_url(list)
+  %li
+    = form_tag lists_path do
+      = text_field_tag :name, params[:name], id: "new-list-input"
+      = submit_tag "Add!", class: "btn success", id: "new-list-submit"
+

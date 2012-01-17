@@ -6,10 +6,7 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
-    .topbar
-      .fill
-        .container
-          = link_to "Procon", "/", class: "brand"
+    = render "shared/header"
     .container
       .content
         = yield

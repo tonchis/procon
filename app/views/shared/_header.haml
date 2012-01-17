@@ -1,0 +1,23 @@
+.topbar
+  .fill
+    .container
+      = link_to "Procon", "/", class: "brand"
+      - if logged_in?
+        .row.pull-right
+          .span2
+            %h5
+              Welcome, 
+              = current_user.username
+          .span2
+            /= link_to "Log out", logout_path, method: :delete,
+            /type: "submit", class: "btn small pull-right"
+            / FIXME: Use link above when you figure out how to style it properly.
+            = form_tag sessions_path, method: :delete, class: "pull-right" do
+              = button_tag "Log out", type: "submit", class: "btn"
+      - else
+        = form_tag sessions_path, class: "pull-right" do
+          = text_field_tag :username, params[:username],
+            placeholder: "Username", class: "input-small"
+          = password_field_tag :password, nil,
+            placeholder: "Password", class: "input-small"
+          = button_tag "Sign in", type: "submit", class: "btn"
