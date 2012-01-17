@@ -4,7 +4,8 @@
   - @lists.each do |list|
     %li= link_to list.name, edit_list_url(list)
   %li
-    = form_tag lists_path do
-      = text_field_tag :name, params[:name], id: "new-list-input"
-      = submit_tag "Add!", class: "btn success", id: "new-list-submit"
-
+    = form_tag lists_path, id: "new-list-form" do
+      = text_field_tag :name, params[:name],
+        "data-bind" => 'value: list, valueUpdate: "afterkeydown"'
+      = submit_tag "Add!", class: "btn success",
+        "data-bind" => 'enable: list().length > 0'
