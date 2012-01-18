@@ -16,4 +16,7 @@ group :test, :development do
   gem 'guard'
   gem 'guard-rspec'
   gem 'growl'
+  gem 'factory_girl'
+  gem 'factory_girl_rails'
 end
+
