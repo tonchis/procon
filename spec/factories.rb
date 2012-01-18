@@ -6,7 +6,7 @@ FactoryGirl.define do
 
   factory :list do
     user
-    name "Y que vamos a hacer esta noche?"
+    name "Gee Brain, what do you wanna do tonight?"
   end
 
   factory :item do
