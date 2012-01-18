@@ -14,31 +14,23 @@ describe List do
     end
   end
 
-  context "instance methods" do
+  describe "#items" do
     it "should respond to items" do
       @list.respond_to?(:items).should be_true
     end
 
-    context "scopes" do
-      before do
-        @list = FactoryGirl.create(:list)
-        @pro = FactoryGirl.create(:pro, list: @list)
-        @con = FactoryGirl.create(:con, list: @list)
-      end
+    it "should persist nested items" do
+      @list = FactoryGirl.create :list
+      @pro  = FactoryGirl.build  :pro, list: nil
+      @con  = FactoryGirl.create :con, list: @list
+      @con.text = "This text is new!"
+      number_of_items = @list.items.size
 
-      describe "#pros" do
-        it "should contain only items of type :pro" do
-          @list.pros.should     include(@pro)
-          @list.pros.should_not include(@con)
-        end
-      end
+      @list.update_attributes(items_attributes: [@pro.attributes, @con.attributes])
 
-      describe "#cons" do
-        it "should contain only items of type :con" do
-          @list.cons.should_not include(@pro)
-          @list.cons.should     include(@con)
-        end
-      end
+      @list.items.size.should == number_of_items + 1
+      @con.reload
+      @con.text.should == "This text is new!"
     end
   end
 end

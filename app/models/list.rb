@@ -2,13 +2,7 @@ class List < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :name
   has_many :items
-
-  def pros
-    items.where(type: :pro).all
-  end
-
-  def cons
-    items.where(type: :con).all
-  end
+  accepts_nested_attributes_for :items, allow_destroy: true
+  attr_accessible :name, :items_attributes
 end
 
