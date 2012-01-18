@@ -6,7 +6,7 @@ describe List do
   end
 
   context "validations" do
-    context "#name" do
+    describe "#name" do
       it "should be present" do
         @list.valid?.should be_false
         @list.should have(1).error_on(:name)
@@ -21,23 +21,22 @@ describe List do
 
     context "scopes" do
       before do
-        @list.user = User.create username: "test", password: "test"
-        @list.name = "Testing, good or bad?"
-        @pro = Item.create(text: "Makes you happy.", list: @list, type: :pro)
-        @con = Item.create(text: "It takes time.",   list: @list, type: :con)
+        @list = FactoryGirl.create(:list)
+        @pro = FactoryGirl.create(:pro, list: @list)
+        @con = FactoryGirl.create(:con, list: @list)
       end
 
-      context "#pros" do
+      describe "#pros" do
         it "should contain only items of type :pro" do
-          @list.pros.should include @pro
-          @list.pros.should_not include @con
+          @list.pros.should     include(@pro)
+          @list.pros.should_not include(@con)
         end
       end
 
-      context "#cons" do
+      describe "#cons" do
         it "should contain only items of type :con" do
-          @list.cons.should_not include @pro
-          @list.cons.should include @con
+          @list.cons.should_not include(@pro)
+          @list.cons.should     include(@con)
         end
       end
     end
