@@ -8,6 +8,7 @@ gem 'jquery-rails'
 gem 'haml-rails'
 gem 'therubyracer'
 gem 'sorcery'
+gem 'unicorn-rails'
 
 group :test, :development do
   gem 'rspec'
