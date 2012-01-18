@@ -2,9 +2,12 @@
   %h1 Pros and Cons lists!
 %ul
   - @lists.each do |list|
-    %li= link_to list.name, edit_list_url(list)
+    %li
+      = link_to list.name, edit_list_url(list)
+      = link_to "delete", list_url(list), method: :delete, remote: true,
+        class: "btn small danger"
   %li
-    = form_tag lists_path, id: "new-list-form" do
+    = form_tag lists_path, remote: true, id: "new-list-form" do
       = text_field_tag :name, params[:name],
         "data-bind" => 'value: list, valueUpdate: "afterkeydown"'
       = submit_tag "Add!", class: "btn success",

@@ -1,5 +1,6 @@
 class ListsController < ApplicationController
   before_filter :require_login
+  respond_to :js, :json
 
   def index
     @lists = current_user.lists
@@ -7,10 +8,13 @@ class ListsController < ApplicationController
 
   def create
     @list = List.create name: params[:name], user: current_user
-    redirect_to edit_list_url(@list)
+    render json: @list
   end
 
-  def edit
+  def destroy
+    @list = List.find_by_id params[:id]
+    @list.destroy
+    head 200
   end
 end
 
