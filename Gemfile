@@ -18,5 +18,6 @@ group :test, :development do
   gem 'growl'
   gem 'factory_girl'
   gem 'factory_girl_rails'
+  gem 'capybara'
 end
 
