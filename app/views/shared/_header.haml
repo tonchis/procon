@@ -12,7 +12,7 @@
             /= link_to "Log out", logout_path, method: :delete,
             /type: "submit", class: "btn small pull-right"
             / FIXME: Use link above when you figure out how to style it properly.
-            = form_tag sessions_path, method: :delete, class: "pull-right" do
+            = form_tag session_path(current_user), method: :delete, class: "pull-right" do
               = button_tag "Log out", type: "submit", class: "btn"
       - else
         = form_tag sessions_path, class: "pull-right" do

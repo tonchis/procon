@@ -3,7 +3,7 @@ Procon::Application.routes.draw do
   get "signup" => "users#new",        :as => "signup"
   get "login"  => "sessions#new",     :as => "login"
   get "logout" => "sessions#destroy", :as => "logout"
-  resource :sessions
+  resources :sessions
   resources :users
   resources :lists
 
