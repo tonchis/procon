@@ -19,5 +19,6 @@ group :test, :development do
   gem 'factory_girl'
   gem 'factory_girl_rails'
   gem 'capybara'
+  gem 'launchy' # To get save_and_open_page working.
 end
 
