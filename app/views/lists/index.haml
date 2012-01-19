@@ -9,8 +9,8 @@
         - @lists.each do |list|
           %li
             = link_to list.name, edit_list_url(list)
-            = link_to "delete", list_url(list), method: :delete, remote: true,
-              class: "btn small danger edit-link"
+            %a{href: "#", "data-id" => "#{list.id}",
+               class: "btn small danger delete-link"} delete
         %li
           = form_tag lists_path, id: "new-list-form",
             "data-bind" => "submit: add_list" do
