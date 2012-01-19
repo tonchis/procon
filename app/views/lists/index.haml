@@ -1,14 +1,47 @@
 .page-header
-  %h1 Pros and Cons lists!
-%ul
-  - @lists.each do |list|
-    %li
-      = link_to list.name, edit_list_url(list)
-      = link_to "delete", list_url(list), method: :delete, remote: true,
-        class: "btn small danger"
-  %li
-    = form_tag lists_path, remote: true, id: "new-list-form" do
-      = text_field_tag :name, params[:name],
-        "data-bind" => 'value: list, valueUpdate: "afterkeydown"'
-      = submit_tag "Add!", class: "btn success",
-        "data-bind" => 'enable: list().length > 0'
+  %h1 Pros and Cons of being you!
+
+#lists
+  .row
+    .offset1
+      %h2 Your dilemmas
+      %ul
+        - @lists.each do |list|
+          %li
+            = link_to list.name, edit_list_url(list)
+            = link_to "delete", list_url(list), method: :delete, remote: true,
+              class: "btn small danger edit-link"
+        %li
+          = form_tag lists_path, id: "new-list-form",
+            "data-bind" => "submit: add_list" do
+            = text_field_tag :name, params[:name],
+              "data-bind" => 'value: list, valueUpdate: "afterkeydown"',
+              placeholder: "Your new dilemma"
+            = submit_tag "Add!", class: "btn success",
+              "data-bind" => 'enable: list().length > 0'
+
+#edit-list
+  .row
+    .span6.offset1
+      %h2 Pros
+      %ul.pros
+        %li
+          = form_tag lists_path, id: "new-pro" do
+            = text_field_tag nil, nil,
+              "data-bind" => 'value: new_pro, valueUpdate: "afterkeydown"',
+              placeholder: "A reason why"
+            = submit_tag "Add!", class: "btn success",
+              "data-bind" => 'enable: new_pro().length > 0'
+    .span6
+      %h2 Cons
+      %ul.cons
+        %li
+          = form_tag lists_path, id: "new-con" do
+            = text_field_tag nil, nil,
+              "data-bind" => 'value: new_con, valueUpdate: "afterkeydown"',
+              placeholder: "A reason why NOT"
+            = submit_tag "Add!", class: "btn success",
+              "data-bind" => 'enable: new_con().length > 0'
+
+= render "templates"
+

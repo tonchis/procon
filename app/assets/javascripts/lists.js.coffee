@@ -1,17 +1,23 @@
 $(document).ready(->
-  # The classic js way.
-  # enable_button_if_filled = ->
-    # input  = $(this)
-    # button = input.parent().find("input[type=submit]")
-    # button.attr("disabled", "disabled")
-    # button.removeAttr("disabled") if input.val().length > 0
-
-  # $("#new-list-input").change(enable_button_if_filled)
-  # $("#new-list-input").trigger("change")
-
-  # The mindblowing knockout way.
   new_list_form =
-    list: ko.observable("")
+    list: ko.observable ""
+    add_list: ->
+      $.ajax
+        dataType: "json"
+        url: "/lists"
+        type: "POST"
+        data:
+          name: @list()
+        success: (data, textStatus, jqXHR) ->
+          html = Mustache.render $("script#new-list").html(), {name: data.name, id: data.id}
+          $(html).insertBefore("#lists ul li:last")
+          @list("")
 
-  ko.applyBindings(new_list_form, $("#new-list-form")[0])
+  ko.applyBindings new_list_form, $("#new-list-form")[0]
+
+  new_pro_form = new_pro: ko.observable ""
+  ko.applyBindings new_pro_form, $("#new-pro")[0]
+
+  new_con_form = new_con: ko.observable ""
+  ko.applyBindings new_con_form, $("#new-con")[0]
 )
