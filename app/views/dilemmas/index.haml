@@ -1,32 +1,32 @@
 .page-header
   %h1 Pros and Cons of being you!
 
-#lists
+#dilemmas
   .row
     .offset1
       %h2 Your dilemmas
       %ul
-        - @lists.each do |list|
+        - @dilemmas.each do |dilemma|
           %li
-            = link_to list.name, edit_list_url(list)
-            %a{href: "#", "data-id" => "#{list.id}",
+            = link_to dilemma.name, edit_dilemma_url(dilemma)
+            %a{href: "#", "data-id" => "#{dilemma.id}",
                class: "btn small danger delete-link"} delete
         %li
-          = form_tag lists_path, id: "new-list-form",
-            "data-bind" => "submit: add_list" do
+          = form_tag dilemmas_path, id: "new-dilemma-form",
+            "data-bind" => "submit: add_dilemma" do
             = text_field_tag :name, params[:name],
-              "data-bind" => 'value: list, valueUpdate: "afterkeydown"',
+              "data-bind" => 'value: dilemma, valueUpdate: "afterkeydown"',
               placeholder: "Your new dilemma"
             = submit_tag "Add!", class: "btn success",
-              "data-bind" => 'enable: list().length > 0'
+              "data-bind" => 'enable: dilemma().length > 0'
 
-#edit-list
+#edit-dilemma
   .row
     .span6.offset1
       %h2 Pros
       %ul.pros
         %li
-          = form_tag lists_path, id: "new-pro" do
+          = form_tag dilemmas_path, id: "new-pro" do
             = text_field_tag nil, nil,
               "data-bind" => 'value: new_pro, valueUpdate: "afterkeydown"',
               placeholder: "A reason why"
@@ -36,7 +36,7 @@
       %h2 Cons
       %ul.cons
         %li
-          = form_tag lists_path, id: "new-con" do
+          = form_tag dilemmas_path, id: "new-con" do
             = text_field_tag nil, nil,
               "data-bind" => 'value: new_con, valueUpdate: "afterkeydown"',
               placeholder: "A reason why NOT"

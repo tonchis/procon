@@ -1,24 +1,24 @@
 $(document).ready(->
   # Behavior for "Your new dilemma" input
-  new_list_form =
-    list: ko.observable ""
-    add_list: ->
+  new_dilemma_form =
+    dilemma: ko.observable ""
+    add_dilemma: ->
       $.ajax
         dataType: "json"
-        url: "/lists"
+        url: "/dilemmas"
         type: "POST"
-        data: name: @list()
+        data: name: @dilemma()
         success: (data) =>
-          html = Mustache.render $("script#new-list").html(),
+          html = Mustache.render $("script#new-dilemma").html(),
                                  {name: data.name, id: data.id}
-          $(html).insertBefore("#lists ul li:last")
-          @list("")
-  ko.applyBindings new_list_form, $("#new-list-form")[0]
+          $(html).insertBefore("#dilemmas ul li:last")
+          @dilemma("")
+  ko.applyBindings new_dilemma_form, $("#new-dilemma-form")[0]
 
   # Behavior for delete buttons. This replaces the deprecated .live() function.
-  $(document).on("click", "#lists ul li a.delete-link", ->
+  $(document).on("click", "#dilemmas ul li a.delete-link", ->
     $.ajax
-      url: "/lists/#{$(@).attr("data-id")}"
+      url: "/dilemmas/#{$(@).attr("data-id")}"
       type: "DELETE"
       success: => $(@).parent().remove()
   )

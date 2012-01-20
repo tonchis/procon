@@ -36,8 +36,8 @@ describe Item do
   end
 
   context "instance methods" do
-    it "should respond to list" do
-      @item.respond_to?(:list).should be_true
+    it "should respond to dilemma" do
+      @item.respond_to?(:dilemma).should be_true
     end
   end
 end

@@ -1,4 +1,4 @@
-class List < ActiveRecord::Base
+class Dilemma < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :name
   has_many :items

@@ -15,8 +15,8 @@ describe User do
   end
 
   context "instance methods" do
-    it "should respond to #lists" do
-      @user.respond_to?(:lists).should be_true
+    it "should respond to #dilemmas" do
+      @user.respond_to?(:dilemmas).should be_true
     end
   end
 end

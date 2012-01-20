@@ -4,13 +4,13 @@ FactoryGirl.define do
     password "testing"
   end
 
-  factory :list do
+  factory :dilemma do
     user
     name "Gee Brain, what do you wanna do tonight?"
   end
 
   factory :item do
-    list
+    dilemma
 
     factory :pro do
       text "This is a good reason."
