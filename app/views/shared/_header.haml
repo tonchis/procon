@@ -5,10 +5,6 @@
       - if logged_in?
         .row.pull-right
           .span2
-            %h5
-              Welcome, 
-              = current_user.username
-          .span2
             /= link_to "Log out", logout_path, method: :delete,
             /type: "submit", class: "btn small pull-right"
             / FIXME: Use link above when you figure out how to style it properly.
