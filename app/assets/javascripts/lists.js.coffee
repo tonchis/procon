@@ -3,28 +3,24 @@ $(document).ready(->
   new_list_form =
     list: ko.observable ""
     add_list: ->
-      self = this
       $.ajax
         dataType: "json"
         url: "/lists"
         type: "POST"
-        data:
-          name: @list()
-        success: (data, textStatus, jqXHR) ->
+        data: name: @list()
+        success: (data) =>
           html = Mustache.render $("script#new-list").html(),
                                  {name: data.name, id: data.id}
           $(html).insertBefore("#lists ul li:last")
-          self.list("")
+          @list("")
   ko.applyBindings new_list_form, $("#new-list-form")[0]
 
-  # Behavior for delete buttons
-  $("#lists ul li a.delete-link").live("click", ->
-    self = this
+  # Behavior for delete buttons. This replaces the deprecated .live() function.
+  $(document).on("click", "#lists ul li a.delete-link", ->
     $.ajax
-      url: "/lists/#{$(self).attr("data-id")}"
+      url: "/lists/#{$(@).attr("data-id")}"
       type: "DELETE"
-      success: ->
-        $(self).parent().remove()
+      success: => $(@).parent().remove()
   )
 
   new_pro_form = new_pro: ko.observable ""
