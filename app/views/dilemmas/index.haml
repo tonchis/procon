@@ -25,23 +25,19 @@
     .span6.offset1
       %h2 Pros
       %ul.pros
-        %li
-          = form_tag dilemmas_path, id: "new-pro" do
-            = text_field_tag nil, nil,
-              "data-bind" => 'value: new_pro, valueUpdate: "afterkeydown"',
-              placeholder: "A reason why"
-            = submit_tag "Add!", class: "btn success",
-              "data-bind" => 'enable: new_pro().length > 0'
     .span6
       %h2 Cons
       %ul.cons
-        %li
-          = form_tag dilemmas_path, id: "new-con" do
-            = text_field_tag nil, nil,
-              "data-bind" => 'value: new_con, valueUpdate: "afterkeydown"',
-              placeholder: "A reason why NOT"
-            = submit_tag "Add!", class: "btn success",
-              "data-bind" => 'enable: new_con().length > 0'
 
+    = form_tag dilemmas_path, id: "new-reason-form" do
+      = text_field_tag nil, nil,
+        "data-bind" => 'value: new_reason, valueUpdate: "afterkeydown"',
+        placeholder: "A good/bad reason"
+      = button_tag "Pro", class: "btn success",
+        "data-bind" => 'click: add_pro, enable: new_reason().length > 0'
+      = button_tag "Con", class: "btn danger",
+        "data-bind" => 'click: add_con, enable: new_reason().length > 0'
+      = button_tag "Both?", class: "btn",
+        "data-bind" => 'click: add_both, enable: new_reason().length > 0'
 = render "templates"
 

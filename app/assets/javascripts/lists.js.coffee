@@ -23,9 +23,16 @@ $(document).ready(->
       success: => $(@).parent().remove()
   )
 
-  new_pro_form = new_pro: ko.observable ""
-  ko.applyBindings new_pro_form, $("#new-pro")[0]
-
-  new_con_form = new_con: ko.observable ""
-  ko.applyBindings new_con_form, $("#new-con")[0]
+  new_reason_form =
+    new_reason: ko.observable ""
+    add_pro: ->
+      alert "pro"
+      # adsfasdf
+    add_con: ->
+      alert "con"
+      # asdfadsf
+    add_both: ->
+      alert "Both"
+      # asdfasdfdsf
+  ko.applyBindings new_reason_form, $("#new-reason-form")[0]
 )
