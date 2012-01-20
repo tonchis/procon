@@ -58,7 +58,7 @@ describe DilemmasController do
           response.code.should == "200"
           body = JSON.parse response.body
           body.should include("name")
-          body.should include("items")
+          body.should include("reasons")
         end
       end
 
@@ -68,17 +68,17 @@ describe DilemmasController do
           @con = FactoryGirl.build :con, dilemma: nil
         end
 
-        it "should update an existing dilemma and create all items" do
+        it "should update an existing dilemma and create all reasons" do
           Dilemma.should_receive(:find_by_id).with(@dilemma.id.to_s).and_return(@dilemma)
           @dilemma.should_receive(:update_attributes).
-            with(hash_including({items_attributes: [@pro.attributes, @con.attributes]})).
+            with(hash_including({reasons_attributes: [@pro.attributes, @con.attributes]})).
             and_return(true)
 
-          put :update, id: @dilemma.id, items: [@pro.to_json, @con.to_json]
+          put :update, id: @dilemma.id, reasons: [@pro.to_json, @con.to_json]
 
           response.should be_success
           body = JSON.parse response.body
-          body.should include("items")
+          body.should include("reasons")
         end
       end
 

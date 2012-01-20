@@ -1,4 +1,4 @@
-class Item < ActiveRecord::Base
+class Reason < ActiveRecord::Base
   self.inheritance_column = :sti_type
 
   attr_accessible :type, :text, :dilemma

@@ -1,6 +1,6 @@
-class CreateItems < ActiveRecord::Migration
+class CreateReasons < ActiveRecord::Migration
   def up
-    create_table :items do |t|
+    create_table :reasons do |t|
       t.string  :text,    null: false
       t.integer :dilemma_id, null: false
       t.string  :type
@@ -8,6 +8,6 @@ class CreateItems < ActiveRecord::Migration
   end
 
   def down
-    drop_table :items
+    drop_table :reasons
   end
 end

@@ -9,7 +9,7 @@ FactoryGirl.define do
     name "Gee Brain, what do you wanna do tonight?"
   end
 
-  factory :item do
+  factory :reason do
     dilemma
 
     factory :pro do

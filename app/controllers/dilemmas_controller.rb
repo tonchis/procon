@@ -16,13 +16,13 @@ class DilemmasController < ApplicationController
 
   def edit
     @dilemma = Dilemma.find_by_id params[:id]
-    render json: @dilemma.to_json(include: [:items])
+    render json: @dilemma.to_json(include: [:reasons])
   end
 
   def update
     @dilemma = Dilemma.find_by_id params[:id]
-    if @dilemma.update_attributes name: params[:name], items_attributes: parse_items(params[:items])
-      render json: @dilemma.to_json(include: [:items])
+    if @dilemma.update_attributes name: params[:name], reasons_attributes: parse_reasons(params[:reasons])
+      render json: @dilemma.to_json(include: [:reasons])
     else
       head 500
     end
@@ -39,9 +39,9 @@ class DilemmasController < ApplicationController
 
 private
 
-  def parse_items(items)
-    items = items.map {|item| JSON.parse(item)}
-    items.each {|item| item['type'] = item['type'].to_sym}
+  def parse_reasons(reasons)
+    reasons = reasons.map {|reason| JSON.parse(reason)}
+    reasons.each {|reason| reason['type'] = reason['type'].to_sym}
   end
 end
 
