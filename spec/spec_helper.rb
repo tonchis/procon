@@ -30,4 +30,6 @@ RSpec.configure do |config|
 end
 
 include Sorcery::TestHelpers::Rails
+include RequestsHelpers
+Capybara.default_wait_time = 5
 
