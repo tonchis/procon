@@ -15,11 +15,6 @@ class DilemmasController < ApplicationController
     end
   end
 
-  def edit
-    @dilemma = Dilemma.find_by_id params[:id]
-    render json: @dilemma.to_json(include: [:reasons])
-  end
-
   def update
     @dilemma = Dilemma.find_by_id params[:id]
     if @dilemma.update_attributes name: params[:name], reasons_attributes: parse_reasons(params[:reasons])

@@ -56,24 +56,6 @@ describe DilemmasController do
         @dilemma = FactoryGirl.create :dilemma
       end
 
-      describe "GET /dilemmas/:id/edit" do
-        before do
-          FactoryGirl.create :pro, dilemma: @dilemma
-          FactoryGirl.create :con, dilemma: @dilemma
-        end
-
-        it "should respond with json" do
-          Dilemma.should_receive(:find_by_id).with(@dilemma.id.to_s).and_return(@dilemma)
-
-          get :edit, id: @dilemma.id
-
-          response.code.should == "200"
-          body = JSON.parse response.body
-          body.should include("name")
-          body.should include("reasons")
-        end
-      end
-
       describe "PUT /dilemmas/:id" do
         before do
           @pro = FactoryGirl.build :pro, dilemma: @dilemma
