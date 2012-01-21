@@ -5,20 +5,16 @@
   .row
     .offset1
       %h2 Your dilemmas
-      %ul
-        - @dilemmas.each do |dilemma|
-          %li
-            = link_to dilemma.name, edit_dilemma_url(dilemma)
-            %a{href: "#", "data-id" => "#{dilemma.id}",
-               class: "btn small danger delete-link"} delete
+      %ul{"data-bind" => "foreach: dilemmas"}
         %li
-          = form_tag dilemmas_path, id: "new-dilemma-form",
-            "data-bind" => "submit: add_dilemma" do
-            = text_field_tag :name, params[:name],
-              "data-bind" => 'value: dilemma, valueUpdate: "afterkeydown"',
-              placeholder: "Your new dilemma"
-            = submit_tag "Add!", class: "btn success",
-              "data-bind" => 'enable: dilemma().length > 0'
+          %a{href: "#", class: "edit-link",
+          "data-bind" => "text: name, click: $parent.edit_dilemma"}
+          %a{href: "#", class: "btn small danger delete-link",
+          "data-bind" => "click: $parent.delete_dilemma"} delete
+      = text_field_tag :name, nil, placeholder: "Your new dilemma",
+        "data-bind" => "value: new_dilemma, valueUpdate: 'afterkeydown'"
+      = button_tag "Add!", class: "btn success",
+        "data-bind" => "click: add_dilemma"
 
 #edit-dilemma
   .row
@@ -42,5 +38,4 @@
         = button_tag "Both?", class: "btn",
           "data-bind" => 'click: add_both, enable: new_reason().length > 0'
         = button_tag "Save", class: "btn", "data-bind" => "click: save_dilemma"
-= render "templates"
 

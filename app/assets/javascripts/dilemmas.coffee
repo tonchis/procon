@@ -1,30 +1,9 @@
 $(document).ready(->
-  # Behavior for "Your new dilemma" input
-  new_dilemma_form =
-    dilemma: ko.observable ""
-    add_dilemma: ->
-      $.ajax
-        dataType: "json"
-        url: "/dilemmas"
-        type: "POST"
-        data: name: @dilemma()
-        success: (data) =>
-          html = Mustache.render $("script#new-dilemma").html(),
-                                 {name: data.name, id: data.id}
-          $(html).insertBefore("#dilemmas ul li:last")
-          @dilemma ""
-  ko.applyBindings new_dilemma_form, $("#new-dilemma-form")[0]
-
-  # Behavior for delete buttons. This replaces the deprecated .live() function.
-  $(document).on("click", "#dilemmas ul li a.delete-link", ->
-    $.ajax
-      url: "/dilemmas/#{$(@).attr("data-id")}"
-      type: "DELETE"
-      success: => $(@).parent().remove()
-  )
-
   class Dilemma
     constructor: (attrs) ->
+      attrs.reasons?= []
+
+      @id      = ko.observable attrs.id
       @name    = ko.observable attrs.name
       @pros    = ko.observableArray @select_reasons(attrs.reasons, "pro")
       @cons    = ko.observableArray @select_reasons(attrs.reasons, "con")
@@ -35,6 +14,7 @@ $(document).ready(->
           cons: @cons()
       @new_reason = ko.observable ""
 
+    # Events
     add_pro: ->
       @pros.push text: @new_reason(), type: "pro"
       @new_reason ""
@@ -48,11 +28,43 @@ $(document).ready(->
     save_dilemma: ->
       console.log @dilemma()
 
+    # Helper functions
     select_reasons: (reasons, type) ->
       reasons_type = []
       reasons_type = (reason for reason in reasons when reason.type is type)
 
-  new_dilemma =  new Dilemma({name: "dude", reasons: [{text: "asdfad", type: "pro"}, {text: "qer", type: "con"}]})
-  ko.applyBindings new_dilemma, $("#edit-dilemma")[0]
+  class Dilemmas
+    constructor: (attrs) ->
+      @dilemmas = ko.observableArray @build_dilemmas(attrs)
+      @new_dilemma = ko.observable ""
 
+    # Events
+    add_dilemma: ->
+      $.ajax
+        dataType: "json"
+        url: "/dilemmas"
+        type: "POST"
+        data: name: @new_dilemma()
+        success: (data) =>
+          created_dilemma = new Dilemma(data)
+          @dilemmas.push created_dilemma
+          @new_dilemma ""
+    edit_dilemma: (dilemma) ->
+      ko.applyBindings dilemma, $("#edit-dilemma")[0]
+    delete_dilemma: (dilemma) =>
+      $.ajax
+        url: "/dilemmas/#{dilemma.id()}"
+        type: "DELETE"
+        success: => @dilemmas.remove dilemma
+
+    # Helper methods
+    build_dilemmas: (attrs) ->
+      dilemmas = []
+      dilemmas = (new Dilemma(dilemma_attrs) for dilemma_attrs in attrs)
+
+  $.ajax
+    url: "/dilemmas"
+    type: "GET"
+    success: (data) =>
+      ko.applyBindings new Dilemmas(data), $("#dilemmas")[0]
 )
