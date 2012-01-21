@@ -4,7 +4,7 @@ class DilemmasController < ApplicationController
 
   def index
     @dilemmas = current_user.dilemmas
-    render json: @dilemmas.to_json(include: [:reasons]) if request.xhr?
+    render json: dilemmas_with_reasons_json(@dilemmas) if request.xhr?
   end
 
   def create
@@ -18,7 +18,7 @@ class DilemmasController < ApplicationController
   def update
     @dilemma = Dilemma.find_by_id params[:id]
     if @dilemma.update_attributes name: params[:name], reasons_attributes: parse_reasons(params[:reasons])
-      render json: @dilemma.to_json(include: [:reasons])
+      render json: @dilemma.to_json(include: :reasons)
     else
       head 500
     end
@@ -38,6 +38,14 @@ private
   def parse_reasons(reasons)
     reasons = reasons.map {|reason| JSON.parse(reason)}
     reasons.each {|reason| reason['type'] = reason['type'].to_sym}
+  end
+
+  # This hack is to include Reason#type.
+  # For some reason, it gets excluded if I just call
+  # dilemmas.to_json(include: :reasons)
+  # It's probably because of the STI thing.
+  def dilemmas_with_reasons_json(dilemmas)
+    dilemmas.to_json(include: {reasons: {only: [:id, :text, :type]}})
   end
 end
 

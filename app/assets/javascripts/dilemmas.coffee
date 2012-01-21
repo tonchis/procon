@@ -35,6 +35,8 @@ $(document).ready(->
 
   class Dilemmas
     constructor: (attrs) ->
+      console.log attrs
+      console.log @build_dilemmas(attrs)
       @dilemmas = ko.observableArray @build_dilemmas(attrs)
       @new_dilemma = ko.observable ""
 
@@ -50,6 +52,8 @@ $(document).ready(->
           @dilemmas.push created_dilemma
           @new_dilemma ""
     edit_dilemma: (dilemma) ->
+      console.log dilemma
+      window.dilemma = dilemma
       ko.applyBindings dilemma, $("#edit-dilemma")[0]
     delete_dilemma: (dilemma) =>
       $.ajax
@@ -62,6 +66,7 @@ $(document).ready(->
       dilemmas = []
       dilemmas = (new Dilemma(dilemma_attrs) for dilemma_attrs in attrs)
 
+  # Request ALL the dilemmas!
   $.ajax
     url: "/dilemmas"
     type: "GET"
