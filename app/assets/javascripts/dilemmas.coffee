@@ -12,7 +12,7 @@ $(document).ready(->
           html = Mustache.render $("script#new-dilemma").html(),
                                  {name: data.name, id: data.id}
           $(html).insertBefore("#dilemmas ul li:last")
-          @dilemma("")
+          @dilemma ""
   ko.applyBindings new_dilemma_form, $("#new-dilemma-form")[0]
 
   # Behavior for delete buttons. This replaces the deprecated .live() function.
@@ -23,16 +23,36 @@ $(document).ready(->
       success: => $(@).parent().remove()
   )
 
-  new_reason_form =
-    new_reason: ko.observable ""
+  class Dilemma
+    constructor: (attrs) ->
+      @name    = ko.observable attrs.name
+      @pros    = ko.observableArray @select_reasons(attrs.reasons, "pro")
+      @cons    = ko.observableArray @select_reasons(attrs.reasons, "con")
+      @dilemma = ko.computed =>
+        name: @name()
+        reasons:
+          pros: @pros()
+          cons: @cons()
+      @new_reason = ko.observable ""
+
     add_pro: ->
-      alert "pro"
-      # adsfasdf
+      @pros.push text: @new_reason(), type: "pro"
+      @new_reason ""
     add_con: ->
-      alert "con"
-      # asdfadsf
+      @cons.push text: @new_reason(), type: "con"
+      @new_reason ""
     add_both: ->
-      alert "Both"
-      # asdfasdfdsf
-  ko.applyBindings new_reason_form, $("#new-reason-form")[0]
+      @pros.push text: @new_reason(), type: "pro"
+      @cons.push text: @new_reason(), type: "con"
+      @new_reason ""
+    save_dilemma: ->
+      console.log @dilemma()
+
+    select_reasons: (reasons, type) ->
+      reasons_type = []
+      reasons_type = (reason for reason in reasons when reason.type is type)
+
+  new_dilemma =  new Dilemma({name: "dude", reasons: [{text: "asdfad", type: "pro"}, {text: "qer", type: "con"}]})
+  ko.applyBindings new_dilemma, $("#edit-dilemma")[0]
+
 )
