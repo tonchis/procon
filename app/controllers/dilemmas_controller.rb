@@ -4,6 +4,7 @@ class DilemmasController < ApplicationController
 
   def index
     @dilemmas = current_user.dilemmas
+    render json: @dilemmas.to_json(include: [:reasons]) if request.xhr?
   end
 
   def create

@@ -19,6 +19,18 @@ describe DilemmasController do
         get :index
         response.should render_template(:index)
       end
+
+      it "should return JSONified dilemmas if request is AJAX" do
+        FactoryGirl.create(:dilemma, user: @user)
+
+        xhr :get, :index
+
+        response.should be_success
+        body = JSON.parse response.body
+        body.should have_at_least(1).item
+        body.first.should have_key("name")
+        body.first.should have_key("reasons")
+      end
     end
 
     describe "POST /dilemmas" do
