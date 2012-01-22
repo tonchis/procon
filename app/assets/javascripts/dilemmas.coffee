@@ -84,4 +84,5 @@ $(document).ready(->
     type: "GET"
     success: (data) =>
       ko.applyBindings new Dilemmas(data), $("#dilemmas")[0]
+      $("#dilemmas").show()
 )
