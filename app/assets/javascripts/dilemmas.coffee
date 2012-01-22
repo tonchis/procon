@@ -8,10 +8,10 @@ $(document).ready(->
       @pros    = ko.observableArray @select_reasons(attrs.reasons, "pro")
       @cons    = ko.observableArray @select_reasons(attrs.reasons, "con")
       @dilemma = ko.computed =>
+        id: @id()
         name: @name()
-        reasons:
-          pros: @pros()
-          cons: @cons()
+        reasons: $.merge @stringify_array(@pros()), @stringify_array(@cons())
+
       @new_reason = ko.observable ""
 
     # Events
@@ -27,16 +27,21 @@ $(document).ready(->
       @new_reason ""
     save_dilemma: ->
       console.log @dilemma()
+      $.ajax
+        url: "/dilemmas/#{@dilemma().id}"
+        type: "PUT"
+        data: @dilemma()
 
     # Helper functions
     select_reasons: (reasons, type) ->
       reasons_type = []
       reasons_type = (reason for reason in reasons when reason.type is type)
+    stringify_array: (objects)->
+      jsons = []
+      jsons = (JSON.stringify(object) for object in objects)
 
   class Dilemmas
     constructor: (attrs) ->
-      console.log attrs
-      console.log @build_dilemmas(attrs)
       @dilemmas = ko.observableArray @build_dilemmas(attrs)
       @new_dilemma = ko.observable ""
 
@@ -52,7 +57,6 @@ $(document).ready(->
           @dilemmas.push created_dilemma
           @new_dilemma ""
     edit_dilemma: (dilemma) ->
-      console.log dilemma
       window.dilemma = dilemma
       ko.applyBindings dilemma, $("#edit-dilemma")[0]
     delete_dilemma: (dilemma) =>
