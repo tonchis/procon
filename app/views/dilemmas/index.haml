@@ -7,9 +7,8 @@
       %h2 Your dilemmas
       %ul{"data-bind" => "foreach: dilemmas"}
         %li
-          %a{href: "#", class: "edit-link",
-          "data-bind" => "text: name, click: $parent.edit_dilemma"}
-          %a{href: "#", class: "btn small danger delete-link",
+          %a{href: "#", "data-bind" => "text: name, click: $parent.edit_dilemma"}
+          %a{href: "#", class: "btn small danger",
           "data-bind" => "click: $parent.delete_dilemma"} delete
       = text_field_tag :name, nil, placeholder: "Your new dilemma",
         "data-bind" => "value: new_dilemma, valueUpdate: 'afterkeydown'"
@@ -21,11 +20,18 @@
     .span6.offset1
       %h2 Pros
       %ul.pros{"data-bind" => "foreach: pros"}
-        %li{"data-bind" => "text: text"}
+        %li
+          %span{"data-bind" => "text: text"}
+          %a{href: "#", class: "btn small danger",
+          "data-bind" => "click: $parent.delete_pro"} delete
+
     .span6
       %h2 Cons
       %ul.cons{"data-bind" => "foreach: cons"}
-        %li{"data-bind" => "text: text"}
+        %li
+          %span{"data-bind" => "text: text"}
+          %a{href: "#", class: "btn small danger",
+          "data-bind" => "click: $parent.delete_con"} delete
     .row
       .span8.offset3
         = text_field_tag nil, nil,

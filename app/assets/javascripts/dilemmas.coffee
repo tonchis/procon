@@ -25,6 +25,9 @@ $(document).ready(->
       @pros.push text: @new_reason(), type: "pro"
       @cons.push text: @new_reason(), type: "con"
       @new_reason ""
+    delete_pro: (pro) => @delete_reason(pro, @pros)
+    delete_con: (con) => @delete_reason(con, @cons)
+
     save_dilemma: ->
       console.log @dilemma()
       $.ajax
@@ -39,6 +42,7 @@ $(document).ready(->
     stringify_array: (objects)->
       jsons = []
       jsons = (JSON.stringify(object) for object in objects)
+    delete_reason: (reason, reasons) -> reasons.destroy(reason)
 
   class Dilemmas
     constructor: (attrs) ->
@@ -53,11 +57,9 @@ $(document).ready(->
         type: "POST"
         data: name: @new_dilemma()
         success: (data) =>
-          created_dilemma = new Dilemma(data)
-          @dilemmas.push created_dilemma
+          @dilemmas.push new Dilemma(data)
           @new_dilemma ""
     edit_dilemma: (dilemma) ->
-      window.dilemma = dilemma
       ko.applyBindings dilemma, $("#edit-dilemma")[0]
     delete_dilemma: (dilemma) =>
       $.ajax
