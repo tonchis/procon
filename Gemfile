@@ -22,3 +22,7 @@ group :test, :development do
   gem 'launchy' # To get save_and_open_page working.
 end
 
+group :production do
+  gem 'pg'
+end
+
