@@ -5,7 +5,7 @@
   .row
     .offset1
       %h2 Your dilemmas
-      %ul{"data-bind" => "foreach: dilemmas"}
+      %ul{"data-bind" => "foreach: dilemmas, visible: dilemmas().length > 0"}
         %li
           %a{href: "#", "data-bind" => "text: name, click: $parent.edit_dilemma"}
           %a{href: "#", class: "btn small danger",
@@ -15,11 +15,14 @@
       = button_tag "Add!", class: "btn success",
         "data-bind" => "click: add_dilemma"
 
-#edit-dilemma
+#edit-dilemma{style: "display: none;",
+  "data-bind" => "template: {name: 'edit-template'}"}
+
+%script{id: "edit-template", type: "text/html"}
   .row
     .span6.offset1
       %h2 Pros
-      %ul.pros{"data-bind" => "foreach: pros"}
+      %ul.pros{"data-bind" => "foreach: pros, visible: pros().length > 0"}
         %li
           %span{"data-bind" => "text: text"}
           %a{href: "#", class: "btn small danger",
@@ -27,7 +30,7 @@
 
     .span6
       %h2 Cons
-      %ul.cons{"data-bind" => "foreach: cons"}
+      %ul.cons{"data-bind" => "foreach: cons, visible: cons().length > 0"}
         %li
           %span{"data-bind" => "text: text"}
           %a{href: "#", class: "btn small danger",
@@ -43,5 +46,7 @@
           "data-bind" => 'click: add_con, enable: new_reason().length > 0'
         = button_tag "Both?", class: "btn",
           "data-bind" => 'click: add_both, enable: new_reason().length > 0'
-        = button_tag "Save", class: "btn", "data-bind" => "click: save_dilemma"
+        .actions
+          = button_tag "Save", class: "btn primary", "data-bind" => "click: save_dilemma"
+          = button_tag "Cancel", class: "btn", "data-bind" => "click: cancel_edit"
 

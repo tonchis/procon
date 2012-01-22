@@ -27,13 +27,17 @@ $(document).ready(->
       @new_reason ""
     delete_pro: (pro) => @delete_reason(pro, @pros)
     delete_con: (con) => @delete_reason(con, @cons)
-
-    save_dilemma: ->
-      console.log @dilemma()
+    save_dilemma: (dilemma) ->
       $.ajax
         url: "/dilemmas/#{@dilemma().id}"
         type: "PUT"
         data: @dilemma()
+        success: ->
+          $("#dilemmas").slideDown()
+          $("#edit-dilemma").slideUp()
+    cancel_edit: (dilemma) ->
+      $("#dilemmas").slideDown()
+      $("#edit-dilemma").slideUp()
 
     # Helper functions
     select_reasons: (reasons, type) ->
@@ -61,6 +65,8 @@ $(document).ready(->
           @new_dilemma ""
     edit_dilemma: (dilemma) ->
       ko.applyBindings dilemma, $("#edit-dilemma")[0]
+      $("#edit-dilemma").slideDown()
+      $("#dilemmas").slideUp()
     delete_dilemma: (dilemma) =>
       $.ajax
         url: "/dilemmas/#{dilemma.id()}"
