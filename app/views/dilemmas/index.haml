@@ -12,7 +12,7 @@
           %a{href: "#", class: "btn small danger",
           "data-bind" => "click: $parent.delete_dilemma"} delete
       = text_field_tag :name, nil, placeholder: "Your new dilemma",
-        "data-bind" => "value: new_dilemma, valueUpdate: 'afterkeydown'"
+        "data-bind" => "value: new_dilemma, valueUpdate: 'afterkeydown', executeOnEnter: add_dilemma"
       = button_tag "Add!", class: "btn success",
         "data-bind" => "click: add_dilemma"
 

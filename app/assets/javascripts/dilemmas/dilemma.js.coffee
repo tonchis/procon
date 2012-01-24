@@ -2,7 +2,7 @@ class Dilemma
   constructor: (attrs) ->
     attrs.reasons?= []
 
-    @id      = ko.observable attrs.id
+    @id      = attrs.id
     @name    = ko.observable attrs.name
     @pros    = ko.observableArray @select_reasons(attrs.reasons, "pro")
     @cons    = ko.observableArray @select_reasons(attrs.reasons, "con")
