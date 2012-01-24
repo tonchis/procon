@@ -41,14 +41,19 @@
       .span8.offset3
         = text_field_tag nil, nil,
           "data-bind" => 'value: new_reason, valueUpdate: "afterkeydown"',
-          placeholder: "A good/bad reason"
+          placeholder: "A good/bad reason", tabindex: 1
         = button_tag "Pro", class: "btn success",
-          "data-bind" => 'click: add_pro, enable: new_reason().length > 0'
+          "data-bind" => 'click: add_pro, enable: new_reason().length > 0',
+          tabindex: 2
         = button_tag "Con", class: "btn danger",
-          "data-bind" => 'click: add_con, enable: new_reason().length > 0'
+          "data-bind" => 'click: add_con, enable: new_reason().length > 0',
+          tabindex: 3
         = button_tag "Both?", class: "btn",
-          "data-bind" => 'click: add_both, enable: new_reason().length > 0'
+          "data-bind" => 'click: add_both, enable: new_reason().length > 0',
+          tabindex: 4
         .actions
-          = button_tag "Save", class: "btn primary", "data-bind" => "click: save_dilemma"
-          = button_tag "Back", class: "btn", "data-bind" => "click: cancel_edit"
+          = button_tag "Save", class: "btn primary", "data-bind" => "click: save_dilemma",
+            tabindex: 5
+          = button_tag "Back", class: "btn", "data-bind" => "click: cancel_edit",
+            tabindex: 6
 
