@@ -14,7 +14,7 @@ class Dilemmas
         @dilemmas.push new Dilemma(data)
         @new_dilemma ""
   edit_dilemma: (dilemma) ->
-    ko.applyBindings dilemma, $("#edit-dilemma")[0]
+    ko.applyBindings dilemma
     $("#edit-dilemma").slideDown()
     $("#dilemmas").slideUp()
   delete_dilemma: (dilemma) =>
