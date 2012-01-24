@@ -20,6 +20,8 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'launchy' # To get save_and_open_page working.
+  gem 'jasminerice'
+  gem 'guard-jasmine'
 end
 
 group :production do
