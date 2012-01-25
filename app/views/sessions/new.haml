@@ -1,5 +1,5 @@
 .page-header
-  %h1 Sign in!
+  %h1 Log in!
 .row
   .span8.offset3
     = form_tag sessions_path do
@@ -14,5 +14,5 @@
           = label_tag :remember_me
           .input= check_box_tag :remember_me, 1, params[:remember_me]
         .actions
-          = submit_tag "Sign in", class: "btn primary"
+          = submit_tag "Log in", class: "btn primary"
           = link_to "Register", new_user_path, class: "btn"
