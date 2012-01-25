@@ -3,12 +3,12 @@ $(document).ready(->
     constructor: (attrs) ->
       attrs.reasons?= []
 
-      @id      = ko.observable attrs.id
+      @id      = attrs.id
       @name    = ko.observable attrs.name
       @pros    = ko.observableArray @select_reasons(attrs.reasons, "pro")
       @cons    = ko.observableArray @select_reasons(attrs.reasons, "con")
       @dilemma = ko.computed =>
-        id: @id()
+        id: @id
         name: @name()
         reasons: $.merge @stringify_array(@pros()), @stringify_array(@cons())
 
@@ -69,7 +69,7 @@ $(document).ready(->
       $("#dilemmas").slideUp()
     delete_dilemma: (dilemma) =>
       $.ajax
-        url: "/dilemmas/#{dilemma.id()}"
+        url: "/dilemmas/#{dilemma.id}"
         type: "DELETE"
         success: => @dilemmas.remove dilemma
 
