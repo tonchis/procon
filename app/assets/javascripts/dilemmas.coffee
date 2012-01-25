@@ -88,4 +88,11 @@ $(document).ready(->
     success: (data) =>
       ko.applyBindings new Dilemmas(data), $("#dilemmas")[0]
       $("#dilemmas").show()
+
+      # Slide down for actions on dilemmas list.
+      $("#dilemmas ul li").hover(->
+        $(@).find(".danger").show()
+      , ->
+        $(@).find(".danger").hide()
+      )
 )

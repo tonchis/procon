@@ -11,15 +11,14 @@
         %li
           %a{href: "#", "data-bind" => "text: name, click: $parent.edit_dilemma"}
           %span{"data-bind" => "text: pros().length + ' vs ' + cons().length"}
-          %a{href: "#", class: "btn small danger",
+          %a{href: "#", class: "btn small danger", style: "display: none;",
           "data-bind" => "click: $parent.delete_dilemma"} delete
       = text_field_tag :name, nil, placeholder: "Your new dilemma",
         "data-bind" => "value: new_dilemma, valueUpdate: 'afterkeydown', executeOnEnter: add_dilemma"
       = button_tag "Add!", class: "btn success",
         "data-bind" => "click: add_dilemma"
 
-#edit-dilemma{style: "display: none;",
-  "data-bind" => "template: {name: 'edit-template'}"}
+#edit-dilemma{"data-bind" => "template: {name: 'edit-template'}"}
 
 %script{id: "edit-template", type: "text/html"}
   %h2{"data-bind" => "text: name"}
