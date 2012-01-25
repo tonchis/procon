@@ -14,23 +14,25 @@ describe Dilemma do
     end
   end
 
-  describe "#reasons" do
+  context "instance methods" do
     it "should respond to reasons" do
       @dilemma.respond_to?(:reasons).should be_true
     end
 
-    it "should persist nested reasons" do
-      @dilemma = FactoryGirl.create :dilemma
-      @pro  = FactoryGirl.build  :pro, dilemma: nil
-      @con  = FactoryGirl.create :con, dilemma: @dilemma
-      @con.text = "This text is new!"
-      number_of_reasons = @dilemma.reasons.size
+    describe "#reasons" do
+      it "should persist nested reasons" do
+        @dilemma = FactoryGirl.create :dilemma
+        @pro  = FactoryGirl.build  :pro, dilemma: nil
+        @con  = FactoryGirl.create :con, dilemma: @dilemma
+        @con.text = "This text is new!"
+        number_of_reasons = @dilemma.reasons.size
 
-      @dilemma.update_attributes(reasons_attributes: [@pro.attributes, @con.attributes])
+        @dilemma.update_attributes(reasons_attributes: [@pro.attributes, @con.attributes])
 
-      @dilemma.reasons.size.should == number_of_reasons + 1
-      @con.reload
-      @con.text.should == "This text is new!"
+        @dilemma.reasons.size.should == number_of_reasons + 1
+        @con.reload
+        @con.text.should == "This text is new!"
+      end
     end
   end
 end
