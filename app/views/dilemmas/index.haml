@@ -28,7 +28,7 @@
       %ul.pros{"data-bind" => "foreach: pros, visible: pros().length > 0"}
         %li
           %span{"data-bind" => "text: text"}
-          %a{href: "#", class: "btn small danger",
+          %a{href: "#", class: "btn small danger", style: "display: none;",
           "data-bind" => "click: $parent.delete_pro"} delete
 
     .span6
@@ -36,7 +36,7 @@
       %ul.cons{"data-bind" => "foreach: cons, visible: cons().length > 0"}
         %li
           %span{"data-bind" => "text: text"}
-          %a{href: "#", class: "btn small danger",
+          %a{href: "#", class: "btn small danger", style: "display: none;",
           "data-bind" => "click: $parent.delete_con"} delete
     .row
       .span8.offset3

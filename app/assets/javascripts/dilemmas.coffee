@@ -68,6 +68,7 @@ class Dilemmas
   edit_dilemma: (dilemma) ->
     ko.applyBindings dilemma, $("#edit-dilemma")[0]
     $("#edit-dilemma").slideDown()
+    $("#edit-dilemma ul li").hover show_delete, hide_delete
     $("#dilemmas").slideUp()
   delete_dilemma: (dilemma) =>
     $.ajax
@@ -80,6 +81,12 @@ class Dilemmas
     dilemmas = []
     dilemmas = (new Dilemma(dilemma_attrs) for dilemma_attrs in attrs)
 
+# To show and hide delte buttons
+show_delete = ->
+  $(@).find(".danger").show()
+hide_delete = ->
+  $(@).find(".danger").hide()
+
 $(document).ready(->
   # Request ALL the dilemmas!
   $.ajax
@@ -88,11 +95,5 @@ $(document).ready(->
     success: (data) =>
       ko.applyBindings new Dilemmas(data), $("#dilemmas")[0]
       $("#dilemmas").show()
-
-      # Slide down for actions on dilemmas list.
-      $("#dilemmas ul li").hover(->
-        $(@).find(".danger").show()
-      , ->
-        $(@).find(".danger").hide()
-      )
+      $("#dilemmas ul li").hover show_delete, hide_delete
 )
