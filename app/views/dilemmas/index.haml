@@ -11,7 +11,7 @@
         %li
           %a{href: "#", "data-bind" => "text: name, click: $parent.edit_dilemma"}
           %span{"data-bind" => "text: pros().length + ' vs ' + cons().length"}
-          %a{href: "#", class: "btn small danger", style: "display: none;",
+          %a{href: "#", class: "delete", style: "display: none;",
           "data-bind" => "click: $parent.delete_dilemma"} delete
       = text_field_tag :name, nil, placeholder: "Your new dilemma",
         "data-bind" => "value: new_dilemma, valueUpdate: 'afterkeydown', executeOnEnter: add_dilemma"
@@ -28,7 +28,7 @@
       %ul.pros{"data-bind" => "foreach: pros, visible: pros().length > 0"}
         %li
           %span{"data-bind" => "text: text"}
-          %a{href: "#", class: "btn small danger", style: "display: none;",
+          %a{href: "#", class: "delete", style: "display: none;",
           "data-bind" => "click: $parent.delete_pro"} delete
 
     .span6
@@ -36,7 +36,7 @@
       %ul.cons{"data-bind" => "foreach: cons, visible: cons().length > 0"}
         %li
           %span{"data-bind" => "text: text"}
-          %a{href: "#", class: "btn small danger", style: "display: none;",
+          %a{href: "#", class: "delete", style: "display: none;",
           "data-bind" => "click: $parent.delete_con"} delete
     .row
       .span8.offset3

@@ -83,9 +83,9 @@ class Dilemmas
 
 # To show and hide delte buttons
 show_delete = ->
-  $(@).find(".danger").show()
+  $(@).find(".delete").show()
 hide_delete = ->
-  $(@).find(".danger").hide()
+  $(@).find(".delete").hide()
 
 $(document).ready(->
   # Request ALL the dilemmas!
