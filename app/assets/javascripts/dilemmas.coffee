@@ -1,7 +1,7 @@
 #= require knockout-2.0.0
 #= require helpers/ko_custom_bindings
 
-class Dilemma
+class window.Dilemma
   constructor: (attrs) ->
     attrs.reasons?= []
 
@@ -50,7 +50,7 @@ class Dilemma
     jsons = (JSON.stringify(object) for object in objects)
   delete_reason: (reason, reasons) -> reasons.destroy(reason)
 
-class Dilemmas
+class window.Dilemmas
   constructor: (attrs) ->
     @dilemmas = ko.observableArray @build_dilemmas(attrs)
     @new_dilemma = ko.observable ""
@@ -68,7 +68,8 @@ class Dilemmas
   edit_dilemma: (dilemma) ->
     ko.applyBindings dilemma, $("#edit-dilemma")[0]
     $("#edit-dilemma").slideDown()
-    $("#edit-dilemma ul li").hover show_delete, hide_delete
+    $("#edit-dilemma ul").on "mouseenter", "li", show_delete
+    $("#edit-dilemma ul").on "mouseleave", "li", hide_delete
     $("#dilemmas").slideUp()
   delete_dilemma: (dilemma) =>
     $.ajax
@@ -95,5 +96,6 @@ $(document).ready(->
     success: (data) =>
       ko.applyBindings new Dilemmas(data), $("#dilemmas")[0]
       $("#dilemmas").show()
-      $("#dilemmas ul li").hover show_delete, hide_delete
+      $("#dilemmas ul").on "mouseenter", "li", show_delete
+      $("#dilemmas ul").on "mouseleave", "li", hide_delete
 )
