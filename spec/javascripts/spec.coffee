@@ -1,2 +1,5 @@
-#=require_tree ./
-#=require_tree ../../app/assets/
+#= require jquery
+#= require knockout-2.0.0
+#= require helpers/ko_custom_bindings
+#= require dilemmas
+#= require_tree ./
