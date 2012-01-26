@@ -1,5 +1,6 @@
 #= require knockout-2.0.0
 #= require helpers/ko_custom_bindings
+#= require helpers/dilemmas_helper
 
 class window.Dilemma
   constructor: (attrs) ->
@@ -7,12 +8,13 @@ class window.Dilemma
 
     @id      = attrs.id
     @name    = ko.observable attrs.name
-    @pros    = ko.observableArray @select_reasons(attrs.reasons, "pro")
-    @cons    = ko.observableArray @select_reasons(attrs.reasons, "con")
+    @pros    = ko.observableArray DilemmasHelper.select_reasons(attrs.reasons, "pro")
+    @cons    = ko.observableArray DilemmasHelper.select_reasons(attrs.reasons, "con")
     @dilemma = ko.computed =>
       id: @id
       name: @name()
-      reasons: $.merge @stringify_array(@pros()), @stringify_array(@cons())
+      reasons: $.merge(DilemmasHelper.stringify_array(@pros()),
+                       DilemmasHelper.stringify_array(@cons()))
 
     @new_reason = ko.observable ""
 
@@ -27,8 +29,8 @@ class window.Dilemma
     @pros.push text: @new_reason(), type: "pro"
     @cons.push text: @new_reason(), type: "con"
     @new_reason ""
-  delete_pro: (pro) => @delete_reason(pro, @pros)
-  delete_con: (con) => @delete_reason(con, @cons)
+  delete_pro: (pro) => DilemmasHelper.delete_reason(pro, @pros)
+  delete_con: (con) => DilemmasHelper.delete_reason(con, @cons)
   save_dilemma: (dilemma) ->
     $.ajax
       url: "/dilemmas/#{@dilemma().id}"
@@ -41,18 +43,10 @@ class window.Dilemma
     $("#dilemmas").slideDown()
     $("#edit-dilemma").slideUp()
 
-  # Helper functions
-  select_reasons: (reasons, type) ->
-    reasons_type = []
-    reasons_type = (reason for reason in reasons when reason.type is type)
-  stringify_array: (objects)->
-    jsons = []
-    jsons = (JSON.stringify(object) for object in objects)
-  delete_reason: (reason, reasons) -> reasons.destroy(reason)
 
 class window.Dilemmas
   constructor: (attrs) ->
-    @dilemmas = ko.observableArray @build_dilemmas(attrs)
+    @dilemmas = ko.observableArray DilemmasHelper.build_dilemmas(attrs)
     @new_dilemma = ko.observable ""
 
   # Events
@@ -68,25 +62,14 @@ class window.Dilemmas
   edit_dilemma: (dilemma) ->
     ko.applyBindings dilemma, $("#edit-dilemma")[0]
     $("#edit-dilemma").slideDown()
-    $("#edit-dilemma ul").on "mouseenter", "li", show_delete
-    $("#edit-dilemma ul").on "mouseleave", "li", hide_delete
+    $("#edit-dilemma ul").on "mouseenter", "li", DilemmasHelper.show_delete
+    $("#edit-dilemma ul").on "mouseleave", "li", DilemmasHelper.hide_delete
     $("#dilemmas").slideUp()
   delete_dilemma: (dilemma) =>
     $.ajax
       url: "/dilemmas/#{dilemma.id}"
       type: "DELETE"
       success: => @dilemmas.remove dilemma
-
-  # Helper methods
-  build_dilemmas: (attrs) ->
-    dilemmas = []
-    dilemmas = (new Dilemma(dilemma_attrs) for dilemma_attrs in attrs)
-
-# To show and hide delte buttons
-show_delete = ->
-  $(@).find(".delete").show()
-hide_delete = ->
-  $(@).find(".delete").hide()
 
 $(document).ready(->
   # Request ALL the dilemmas!
@@ -96,6 +79,6 @@ $(document).ready(->
     success: (data) =>
       ko.applyBindings new Dilemmas(data), $("#dilemmas")[0]
       $("#dilemmas").show()
-      $("#dilemmas ul").on "mouseenter", "li", show_delete
-      $("#dilemmas ul").on "mouseleave", "li", hide_delete
+      $("#dilemmas ul").on "mouseenter", "li", DilemmasHelper.show_delete
+      $("#dilemmas ul").on "mouseleave", "li", DilemmasHelper.hide_delete
 )
