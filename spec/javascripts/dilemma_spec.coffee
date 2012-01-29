@@ -54,15 +54,27 @@ describe "Dilemma", ->
         expect(@ajax_spy.getCall(0).args[0].type).toBe "PUT"
         expect(@ajax_spy.getCall(0).args[0].data).toBe @dilemma.dilemma()
 
-      # it "should hide current dilemma and show dilemmas list", ->
-        # response = [200, {"Content-Type": "application/json"},
-          # "{\"id\": #{@dilemma.id}, \"reasons\":" +
-          # "[{\"text\": \"good one\", \"type\": \"pro\", \"id\": \"1\"}," +
-           # "{\"text\": \"bad one\", \"type\": \"con\", \"id\": \"2\"}]}"]
-        # @server.respondWith("PUT", "/dilemmas/#{@dilemma.id}", response)
-        # @dilemma.save_dilemma()
-        # @server.respond()
+      describe "DOM modifications", ->
+        beforeEach ->
+          response = [200, {"Content-Type": "application/json"},
+            "{\"id\": #{@dilemma.id}, \"reasons\":" +
+            "[{\"text\": \"good one\", \"type\": \"pro\", \"id\": \"1\"}," +
+             "{\"text\": \"bad one\", \"type\": \"con\", \"id\": \"2\"}]}"]
+          @server.respondWith("PUT", "/dilemmas/#{@dilemma.id}", response)
+          jasmine.getFixtures().fixturesPath = "jasmine/fixtures"
 
-        # expect($("#dilemmas")).toBeVisible()
-        # expect($("#edit-dilemma")).toBeHidden()
+        afterEach ->
+          jasmine.getFixtures().clearCache()
 
+        it "should show dilemmas list", ->
+          setFixtures sandbox({id: "dilemmas", style: "display: none;"})
+          @dilemma.save_dilemma()
+          @server.respond()
+          expect($("#dilemmas")).toBeVisible()
+
+        # Y U NO PASSING?
+        # it "should hide current dilemma", ->
+          # setFixtures sandbox({id: "edit-dilemma", style: ""})
+          # @dilemma.save_dilemma()
+          # @server.respond()
+          # expect($("#edit-dilemma")).toBeHidden()
